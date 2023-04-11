@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@drawable/main_screen"
+    android:layout_height="match_parent"
+    tools:context=".registraciya">
+<ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/frame40"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="55sp"
+    android:id="@+id/cartinka"/>
+
+    <EditText
+        android:layout_below="@id/cartinka"
+        android:layout_marginTop="60sp"
+        android:id="@+id/regist_text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/frame2"
+        android:ems="18"
+        android:hint="@string/имя"
+        android:paddingStart="20sp"
+        android:textColorHint="#AFAFAF"
+        tools:ignore="RtlSymmetry" />
+    <EditText
+        android:layout_below="@id/regist_text1"
+        android:layout_marginTop="10sp"
+        android:id="@+id/regist_text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/frame2"
+        android:ems="18"
+        android:hint="Фамилия"
+        android:paddingStart="20sp"
+        android:textColorHint="#AFAFAF" />
+    <EditText
+        android:layout_below="@id/regist_text2"
+        android:layout_marginTop="10sp"
+        android:id="@+id/regist_text3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/frame2"
+        android:ems="18"
+        android:hint="E-mail"
+        android:paddingStart="20sp"
+        android:textColorHint="#AFAFAF"/>
+    <EditText
+        android:id="@+id/regist_text4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/regist_text3"
+        android:layout_marginTop="10sp"
+        android:ems="18"
+        android:layout_centerHorizontal="true"
+        android:textColorHint="#AFAFAF"
+        android:hint="Пароль"
+        android:inputType="textPassword"
+        android:layout_centerVertical="true"
+        android:paddingStart="20sp"
+        android:background="@drawable/frame2"/>
+    <EditText
+        android:id="@+id/regist_text5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/regist_text4"
+        android:layout_marginTop="10sp"
+        android:ems="18"
+        android:layout_centerHorizontal="true"
+        android:textColorHint="#AFAFAF"
+        android:hint="Повторите пароль"
+        android:inputType="textPassword"
+        android:layout_centerVertical="true"
+        android:paddingStart="20sp"
+        android:background="@drawable/frame2"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/regitaciay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/regist_text5"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="65sp"
+        android:background="@drawable/frame1"
+        android:hint="Зарегистрироваться"
+        android:textColorHint="#FFF" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/regitaciay_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/regitaciay"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10sp"
+        android:background="@drawable/frame2"
+        android:hint="У меня уже есть аккаунт"
+        android:textColorHint="#EF3A01" />
+</RelativeLayout>

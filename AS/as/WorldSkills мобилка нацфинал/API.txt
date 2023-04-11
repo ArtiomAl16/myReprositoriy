@@ -1,0 +1,1103 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "WS-Cinema",
+    "description" : "API для мобильного приложения \"WS-Cinema\"\n",
+    "contact" : {
+      "email" : "apiteam@swagger.io"
+    },
+    "license" : {
+      "name" : "BASE URL Для видео: http://cinema.areas.su/up/video/",
+      "url" : "http://cinema.areas.su/up/video/"
+    },
+    "version" : "1.0.0"
+  },
+  "externalDocs" : {
+    "description" : "BASE URL Для изображений: http://cinema.areas.su/up/images/",
+    "url" : "http://cinema.areas.su/up/images/"
+  },
+  "servers" : [  {
+    "url" : "http://cinema.areas.su",
+    "description" : "wtget"
+  } ],
+  "security" : [ {
+    "bearerAuth" : [ ]
+  } ],
+  "tags" : [ {
+    "name" : "auth",
+    "description" : "Регистрация и получение токена"
+  }, {
+    "name" : "user",
+    "description" : "Информация о пользователе"
+  }, {
+    "name" : "movie",
+    "description" : "Информация о киноновинках"
+  } ],
+  "paths" : {
+    "/movies/cover" : {
+      "get" : {
+        "tags" : [ "movie" ],
+        "summary" : "Получить информацию о фильме для обложки",
+        "description" : "Изображения для Главного экрана приложения. ForegroundImage должен располагаться по центру.",
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CoverMovie"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Проблемы при призапросе"
+          }
+        },
+        "security" : [ ]
+      }
+    },
+    "/movies" : {
+      "get" : {
+        "tags" : [ "movie" ],
+        "summary" : "Получить список фильмов",
+        "description" : "Список фильмов для отображения на Главном экране. \n- new - Новое\n- inTrend - В тренде\n- forMe - Для вас\n",
+        "parameters" : [ {
+          "name" : "filter",
+          "in" : "query",
+          "description" : "Фильтр для запроса",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "default" : "new",
+            "enum" : [ "new", "inTrend", "forMe" ]
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Movie"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Проблемы при призапросе"
+          }
+        },
+        "security" : [ ]
+      }
+    },
+    "/usermovies" : {
+      "get" : {
+        "tags" : [ "movie" ],
+        "summary" : "Получить список фильмов пользователя",
+        "description" : "Необходимо передать header параметр авторизации типа Bearer.\n          \nСписок фильмов для отображения на Главном экране. \n- lastView - Вы смотрели\n- compilation - Подборка\n",
+        "parameters" : [ {
+          "name" : "filter",
+          "in" : "query",
+          "description" : "Фильтр для запроса",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "default" : "new",
+            "enum" : [ "lastView", "compilation" ]
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Movie"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Проблемы при призапросе"
+          },
+          "401" : {
+            "description" : "Неавторизированный доступ"
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/movies/{movieId}" : {
+      "get" : {
+        "tags" : [ "movie" ],
+        "summary" : "Получить конкретный фильм",
+        "parameters" : [ {
+          "name" : "movieId",
+          "in" : "path",
+          "description" : "Id фильма/сериала",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Movie"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Неавторизированный доступ"
+          }
+        },
+        "security" : [ ]
+      }
+    },
+    "/movies/{movieId}/episodes" : {
+      "get" : {
+        "tags" : [ "movie" ],
+        "summary" : "Получить список эпизодов",
+        "description" : "Для многосерийных фильмов запрос возвращает массив серий. Для фильмов/мультфильмов - сам фильм/мультфильм.",
+        "parameters" : [ {
+          "name" : "movieId",
+          "in" : "path",
+          "description" : "Id фильма/сериала",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Episode"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ ]
+      }
+    },
+    "/movies/{movieId}/dislike" : {
+      "put" : {
+        "tags" : [ "movie" ],
+        "summary" : "Убрать фильм из подборки",
+        "description" : "Поставить dislike фильму и убрать его из подборки. Необходимо передать header параметр авторизации типа Bearer.",
+        "parameters" : [ {
+          "name" : "movieId",
+          "in" : "path",
+          "description" : "Id фильма",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Успешное сохранение информации"
+          },
+          "400" : {
+            "description" : "Проблемы при сохранении"
+          },
+          "401" : {
+            "description" : "Неавторизированный доступ"
+          }
+        }
+      }
+    },
+    "/episodes/{episodeId}/time" : {
+      "post" : {
+        "tags" : [ "movie" ],
+        "summary" : "Получить текущую позицию.",
+        "description" : "Необходимо передать header параметр авторизации типа Bearer.",
+        "parameters" : [ {
+          "name" : "episodeId",
+          "in" : "path",
+          "description" : "Id эпизода",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/EpisodeTime"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Неавторизированный доступ"
+          }
+        }
+      }
+    },
+    "/episodes/{episodeId}/time/{timeInSeconds}" : {
+      "put" : {
+        "tags" : [ "movie" ],
+        "summary" : "Сохранить текущую позицию эпизода",
+        "description" : "Необходимо передать header параметр авторизации типа Bearer.\n\nСохранить позицию, с которой начнется воспроизведение при возврате к эпизоду\n",
+        "parameters" : [ {
+          "name" : "episodeId",
+          "in" : "path",
+          "description" : "Id эпизода",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          }
+        }, {
+          "name" : "timeInSeconds",
+          "in" : "path",
+          "description" : "Текущая временная позиция в секундах",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Успешное сохранение информации"
+          },
+          "400" : {
+            "description" : "Проблемы при сохранении"
+          },
+          "401" : {
+            "description" : "Неавторизированный доступ"
+          }
+        }
+      }
+    },
+    "/tags" : {
+      "get" : {
+        "tags" : [ "movie" ],
+        "summary" : "Список всех тегов",
+        "description" : "Получить список тегов",
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Tag"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated" : true,
+        "security" : [ ]
+      }
+    },
+    "/auth/register" : {
+      "post" : {
+        "tags" : [ "auth" ],
+        "summary" : "Регистрация",
+        "requestBody" : {
+          "description" : "Данные для регистрации пользователя",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RegistrationBody"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Успешная регистрация"
+          },
+          "400" : {
+            "description" : "Проблемы при регистрации"
+          }
+        },
+        "security" : [ ]
+      }
+    },
+    "/auth/login" : {
+      "post" : {
+        "tags" : [ "auth" ],
+        "summary" : "Аутентификация в системе",
+        "requestBody" : {
+          "description" : "Данные для получения доступа к системе",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/AuthCredential"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Успешная аутентификация",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AuthResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Проблема аутентификации"
+          }
+        },
+        "security" : [ ]
+      }
+    },
+    "/user" : {
+      "put" : {
+        "tags" : [ "user" ],
+        "summary" : "Редактирование данных пользователя",
+        "description" : "Необходимо передать header параметр авторизации типа Bearer",
+        "requestBody" : {
+          "description" : "Новые данные о пользователе",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UserForm"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Изменения успешно сохранены",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Проблемы при обновлении"
+          },
+          "401" : {
+            "description" : "Неавторизированный доступ"
+          }
+        }
+      },
+      "get" : {
+        "tags" : [ "user" ],
+        "summary" : "Получить информацию о пользователе.",
+        "description" : "Необходимо передать header параметр авторизации типа Bearer",
+        "responses" : {
+          "200" : {
+            "description" : "Данные пользователя",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Неавторизированный доступ."
+          }
+        }
+      }
+    },
+    "/user/avatar" : {
+      "post" : {
+        "tags" : [ "user" ],
+        "summary" : "Загрузка фотографии",
+        "description" : "Данный запрос принимает только изображения формата .png и .jpg/.jpeg. Пустые изображения и невалидные изображения не разрешены",
+        "requestBody" : {
+          "content" : {
+            "multipart/form-data" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body"
+              },
+              "encoding" : {
+                "file" : {
+                  "contentType" : "image/png, image/jpeg",
+                  "style" : "form"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Фотография успешно загружена",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Проблемы при загрузке фотографии"
+          },
+          "401" : {
+            "description" : "Неавторизированный доступ"
+          }
+        }
+      }
+    },
+    "/user/chats" : {
+      "get" : {
+        "tags" : [ "user" ],
+        "summary" : "Список чатов, в которых участвует данный пользователь.",
+        "description" : "Получить список чатов. Необходимо передать header параметр авторизации. типа Bearer.",
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Chat"
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Неавторизированный доступ"
+          }
+        }
+      }
+    },
+    "/user/history" : {
+      "post" : {
+        "tags" : [ "user" ],
+        "summary" : "История просмотров пользователя.",
+        "description" : "Получить историю просмотров. Необходимо передать header параметр авторизации типа Bearer.",
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/EpisodeView"
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Неавторизированный доступ"
+          }
+        }
+      }
+    },
+    "/chats/{movieId}" : {
+      "get" : {
+        "tags" : [ "user" ],
+        "summary" : "Список сообщений чата",
+        "description" : "Получить список сообщений. Необходимо передать header параметр авторизации.",
+        "parameters" : [ {
+          "name" : "movieId",
+          "in" : "path",
+          "description" : "Id movie",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Chat"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Проблема аутентификации"
+          }
+        },
+        "security" : [ ]
+      }
+    },
+    "/chats/{chatId}/messages" : {
+      "get" : {
+        "tags" : [ "user" ],
+        "summary" : "Список сообщений чата",
+        "description" : "Получить список сообщений. Необходимо передать header параметр авторизации. типа Bearer авторизации.",
+        "parameters" : [ {
+          "name" : "chatId",
+          "in" : "path",
+          "description" : "Id чата",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Message"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "user" ],
+        "summary" : "Отправить сообщение",
+        "description" : "Отправить сообщение в чат. Необходимо передать header параметр авторизации типа Bearer.",
+        "parameters" : [ {
+          "name" : "chatId",
+          "in" : "path",
+          "description" : "Id чата",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/MessageForm"
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Успешное сохранение информации",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Message"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Проблемы при сохранении"
+          },
+          "401" : {
+            "description" : "Неавторизированный доступ"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "RegistrationBody" : {
+        "type" : "object",
+        "properties" : {
+          "email" : {
+            "type" : "string",
+            "description" : "Email пользователя",
+            "example" : "vasya@mail.com"
+          },
+          "password" : {
+            "type" : "string",
+            "description" : "Пароль для входа",
+            "example" : "qwerty"
+          },
+          "firstName" : {
+            "type" : "string",
+            "description" : "Имя пользователя",
+            "example" : "John"
+          },
+          "lastName" : {
+            "type" : "string",
+            "description" : "Фамилия пользователя",
+            "example" : "Johnson"
+          }
+        }
+      },
+      "AuthCredential" : {
+        "type" : "object",
+        "properties" : {
+          "email" : {
+            "type" : "string",
+            "description" : "Email пользователя",
+            "format" : "string",
+            "example" : "vasya@mail.com"
+          },
+          "password" : {
+            "type" : "string",
+            "description" : "Пароль пользователя",
+            "format" : "password",
+            "example" : "qwerty"
+          }
+        }
+      },
+      "AuthResponse" : {
+        "type" : "object",
+        "properties" : {
+          "token" : {
+            "type" : "string",
+            "description" : "Токен доступа к серверу",
+            "format" : "string"
+          }
+        }
+      },
+      "Comment" : {
+        "type" : "object",
+        "properties" : {
+          "commentId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "creationDateTime" : {
+            "type" : "string",
+            "description" : "Дата и время добавления комментария в формате YYYY-MM-DD hh:mm",
+            "format" : "date"
+          },
+          "authorName" : {
+            "type" : "string",
+            "example" : "John Johnson"
+          },
+          "authorAvatarId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "text" : {
+            "type" : "string",
+            "example" : "Отличная серия, возможно, лучшая в этом сезоне."
+          }
+        }
+      },
+      "CommentForm" : {
+        "type" : "object",
+        "properties" : {
+          "text" : {
+            "type" : "string",
+            "example" : "Отличная серия, возможно, лучшая в этом сезоне."
+          }
+        }
+      },
+      "User" : {
+        "type" : "object",
+        "properties" : {
+          "userId" : {
+            "type" : "integer",
+            "format" : "int64",
+            "example" : 345346
+          },
+          "firstName" : {
+            "type" : "string",
+            "example" : "John"
+          },
+          "lastName" : {
+            "type" : "string",
+            "example" : "Johnson"
+          },
+          "email" : {
+            "type" : "string",
+            "example" : "john@gmail.com"
+          },
+          "avatarId" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        },
+        "xml" : {
+          "name" : "User"
+        }
+      },
+      "EpisodeTime" : {
+        "type" : "object",
+        "properties" : {
+          "time" : {
+            "type" : "integer",
+            "description" : "Текущая позиция в секундах. Если позиция равна длине эпизода - эпизод считается просмотренным полностью.",
+            "example" : 305
+          }
+        }
+      },
+      "UserForm" : {
+        "type" : "object",
+        "properties" : {
+          "firstName" : {
+            "type" : "string",
+            "example" : "John"
+          },
+          "lastName" : {
+            "type" : "string",
+            "example" : "Johnson"
+          },
+          "password" : {
+            "type" : "string",
+            "example" : "qwerty"
+          }
+        },
+        "xml" : {
+          "name" : "UserForm"
+        }
+      },
+      "Tag" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "tagName" : {
+            "type" : "string",
+            "example" : "Комедия"
+          },
+          "categoryName" : {
+            "type" : "string",
+            "example" : "Жанры"
+          }
+        }
+      },
+      "CoverMovie" : {
+        "type" : "object",
+        "properties" : {
+          "movieId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "backgroundImage" : {
+            "type" : "string"
+          },
+          "foregroundImage" : {
+            "type" : "string"
+          }
+        },
+        "xml" : {
+          "name" : "Tag"
+        }
+      },
+      "Movie" : {
+        "required" : [ "movieId" ],
+        "type" : "object",
+        "properties" : {
+          "movieId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "name" : {
+            "type" : "string",
+            "example" : "The Magicians"
+          },
+          "description" : {
+            "type" : "string",
+            "example" : "5 сезонов"
+          },
+          "age" : {
+            "type" : "string",
+            "enum" : [ "0+", "6+", "12+", "16+", "18+" ]
+          },
+          "images" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "poster" : {
+            "type" : "string"
+          },
+          "tags" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Tag"
+            }
+          }
+        },
+        "xml" : {
+          "name" : "Movie"
+        }
+      },
+      "Episode" : {
+        "required" : [ "episodeId" ],
+        "type" : "object",
+        "properties" : {
+          "episodeId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "name" : {
+            "type" : "string",
+            "example" : "Escape From The Happy Place"
+          },
+          "description" : {
+            "type" : "string",
+            "example" : "Eliot is in his happy place, unaware that he is being possessed by the Monster. To have control over his body, Eliot must travel to the place that contains his greatest regret: turning down Quentin when he suggests he and Eliot should be together after their memories are restored of their life in past-Fillory, happily living together and raising a family."
+          },
+          "director" : {
+            "type" : "string",
+            "example" : "Meera Menon"
+          },
+          "stars" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string",
+              "example" : "Jason Ralph"
+            }
+          },
+          "year" : {
+            "type" : "string",
+            "example" : "2019"
+          },
+          "images" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "runtime" : {
+            "type" : "integer",
+            "description" : "Продолжительность эпизода в секундах",
+            "example" : 2640
+          },
+          "preview" : {
+            "type" : "string"
+          },
+          "filePath" : {
+            "type" : "string"
+          }
+        }
+      },
+      "EpisodeView" : {
+        "required" : [ "episodeId", "movieId" ],
+        "type" : "object",
+        "properties" : {
+          "episodeId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "movieId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "episodeName" : {
+            "type" : "string",
+            "example" : "Escape From The Happy Place"
+          },
+          "movieName" : {
+            "type" : "string",
+            "example" : "The Magicians"
+          },
+          "preview" : {
+            "type" : "string"
+          },
+          "filePath" : {
+            "type" : "string"
+          },
+          "time" : {
+            "type" : "integer",
+            "description" : "Текущая позиция в секундах. Если позиция равна длине эпизода - эпизод считается просмотренным полностью.",
+            "example" : 305
+          }
+        }
+      },
+      "Chat" : {
+        "required" : [ "chatId" ],
+        "type" : "object",
+        "properties" : {
+          "chatId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "movieName" : {
+            "type" : "string",
+            "example" : "The Magicians"
+          }
+        }
+      },
+      "Message" : {
+        "required" : [ "messageId" ],
+        "type" : "object",
+        "properties" : {
+          "chatId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "messageId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "creationDateTime" : {
+            "type" : "string",
+            "description" : "Дата и время добавления сообщения в формате YYYY-MM-DD hh:mm",
+            "format" : "date"
+          },
+          "authorName" : {
+            "type" : "string",
+            "example" : "John Johnson"
+          },
+          "authorAvatarId" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "text" : {
+            "type" : "string",
+            "example" : "А мне не понравился последний сезон. Позор создателям."
+          }
+        }
+      },
+      "MessageForm" : {
+        "type" : "object",
+        "properties" : {
+          "text" : {
+            "type" : "string",
+            "example" : "А мне не понравился последний сезон. Позор создателям."
+          }
+        }
+      },
+      "CollectionListItem" : {
+        "required" : [ "collectionId", "name" ],
+        "type" : "object",
+        "properties" : {
+          "collectionId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "name" : {
+            "type" : "string",
+            "example" : "Посмотреть в самолете"
+          }
+        }
+      },
+      "CollectionForm" : {
+        "required" : [ "name" ],
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "example" : "Посмотреть в самолете"
+          }
+        }
+      },
+      "body" : {
+        "type" : "object",
+        "properties" : {
+          "file" : {
+            "type" : "string",
+            "description" : "Бинарное представление файла",
+            "format" : "binary"
+          },
+          "token" : {
+            "type" : "string",
+            "description" : "Токен доступа к серверу",
+            "format" : "string"
+          }
+        }
+      }
+    },
+    "requestBodies" : {
+      "UserForm" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/UserForm"
+            }
+          }
+        }
+      },
+      "EpisodeTime" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/EpisodeTime"
+            }
+          }
+        }
+      },
+      "CommentForm" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/CommentForm"
+            }
+          }
+        }
+      },
+      "MessageForm" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/MessageForm"
+            }
+          }
+        }
+      },
+      "CollectionForm" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/CollectionForm"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "bearerAuth" : {
+        "type" : "http",
+        "description" : "Для доступа к API с валидным JWT токеном небходимо для каждого защищенного узла отправлять токен доступа в заголовке Authorization.\n\nПравильный и валидный JWT токен генерируется по API и возвращается после выполнения запроса /api/auth/token/refresh на получение токена доступа к API.\n\nКогда токен доступа протухнет, то для получения нового необходимо сгенерировать еще один.\n\nПри протухании токена обновления необходимо разлогинить пользователя.\n\nНапример,\n\nAuthorization: Bearer <здесь ваш JWT токен>\n",
+        "scheme" : "bearer",
+        "bearerFormat" : "JWT"
+      }
+    }
+  }
+}

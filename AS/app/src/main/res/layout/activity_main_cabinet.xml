@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToOutline="true"
+    android:background="@drawable/main_screen"
+    tools:context=".MainCabinet">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="2140sp"
+        android:id="@+id/listalka">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/film"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/buttonFilm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="135sp"
+                        android:layout_marginTop="270sp"
+                        android:background="@drawable/frame4"
+                        android:hint="Смотреть"
+                        android:textColorHint="#FFF" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="243dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/main_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="15sp"
+                        android:text="В тренде"
+                        android:textColor="#EF3A01"
+                        android:textSize="24sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200sp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/main_text1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16sp"
+                        android:text="Вы смотрели"
+                        android:textColor="#EF3A01"
+                        android:textSize="24sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200sp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/main_text2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="Новое"
+                        android:textColor="#EF3A01"
+                        android:textSize="24sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/main_text3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="Для вас"
+                        android:textColor="#EF3A01"
+                        android:textSize="24sp" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/inters"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="51sp"
+                        android:layout_marginTop="150sp"
+                        android:background="@drawable/frame4"
+                        android:ems="18"
+                        android:hint="Указать интересы"
+                        android:textColorHint="#FFF" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200sp"
+        android:layout_below="@+id/listalka">
+
+    </LinearLayout>
+</RelativeLayout>

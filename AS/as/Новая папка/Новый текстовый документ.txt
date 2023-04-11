@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Registr"
+    android:background="@color/black">
+
+    <EditText
+        android:id="@+id/text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="18"
+        android:layout_centerHorizontal="true"
+        android:hint="E-mail"
+        android:layout_centerVertical="true"
+        android:paddingStart="20sp"
+        android:background="@drawable/frame2"/>
+    <EditText
+        android:id="@+id/text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text1"
+        android:layout_marginTop="10sp"
+        android:ems="18"
+        android:layout_centerHorizontal="true"
+        android:hint="Пароль"
+        android:layout_centerVertical="true"
+        android:paddingStart="20sp"
+        android:background="@drawable/frame2"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/frame1"
+        android:layout_centerHorizontal="true"
+        android:ems="23"
+        android:textColorHint="#FFF"
+        android:hint="Войти"
+        android:layout_marginTop="150sp"
+        android:layout_below="@id/text1"/>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/regist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/frame1"
+        android:layout_centerHorizontal="true"
+        android:ems="23"
+        android:textColorHint="#FFF"
+        android:hint="Регистрация"
+        android:layout_marginTop="20sp"
+        android:layout_below="@id/input"/>
+</RelativeLayout>
